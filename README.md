@@ -16,7 +16,7 @@
 ### Association
 -has_many :items
 -has_many :comments
--has_many :purchase_historys
+-has_many :purchase_histories
 
 ## itemsテーブル
 
@@ -35,7 +35,7 @@
 ### Association
 -belongs_to :user
 -has_many :comments
--has_one :purchase_history
+-has_one :purchase_histories
 
 ## customersテーブル
 
@@ -52,7 +52,7 @@
 ### Association
 -belongs_to :purchase_history
 
-## purchase_historysテーブル
+## purchase_historiesテーブル
 
 | Column    | Type       | Options                         |
 | --------- | ---------- | ------------------------------- |
