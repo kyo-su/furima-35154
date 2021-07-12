@@ -86,6 +86,12 @@ RSpec.describe User, type: :model do
         expect(another_user.errors.full_messages).to include('Email has already been taken')
       end
 
+      it 'emailが@を含めてないと登録できない' do
+        @user.email = 'testtest.com'
+        @user.valid?
+        expect(@user.errors.full_messages).to include('Email is invalid')
+      end
+
       it 'passwordが5文字以下では登録できない' do
         @user.password = '000aa'
         @user.password_confirmation = '000aa'
@@ -93,11 +99,54 @@ RSpec.describe User, type: :model do
         expect(@user.errors.full_messages).to include('Password is too short (minimum is 6 characters)')
       end
 
-      it 'passwordが英数字混合でないと登録できない' do
+      it 'passwordが英数字混合でないと登録できない（数字のみの場合）' do
         @user.password = '000000'
         @user.password_confirmation = '000000'
         @user.valid?
         expect(@user.errors.full_messages).to include('Password is invalid. Include both letters and numbers')
+      end
+
+      it 'passwordが英数字混合でないと登録できない（英字のみの場合）' do
+        @user.password = 'aaaaaa'
+        @user.password_confirmation = 'aaaaaa'
+        @user.valid?
+        expect(@user.errors.full_messages).to include('Password is invalid. Include both letters and numbers')
+      end
+
+      it 'ユーザー本名（名字）は、全角（漢字・ひらがな・カタカナ）でないと登録できない' do
+        @user.family_name_kanji = 'yamada'
+        @user.valid?
+        expect(@user.errors.full_messages).to include('Family name kanji is invalid. Input full-width characters')
+      end
+
+      it 'ユーザー本名（名前）は、全角（漢字・ひらがな・カタカナ）でないと登録できない' do
+        @user.first_name_kanji = 'taro'
+        @user.valid?
+        expect(@user.errors.full_messages).to include('First name kanji is invalid. Input full-width characters')
+      end
+
+      it 'ユーザー本名（名字）のフリガナは、全角（カタカナ）でないと登録できない（半角の場合）' do
+        @user.family_name_kana = 'yamada'
+        @user.valid?
+        expect(@user.errors.full_messages).to include('Family name kana is invalid. Input full-width katakana characters')
+      end
+
+      it 'ユーザー本名（名字）のフリガナは、全角（カタカナ）でないと登録できない（全角（カタカナ）以外の場合）' do
+        @user.family_name_kana = 'やまだ'
+        @user.valid?
+        expect(@user.errors.full_messages).to include('Family name kana is invalid. Input full-width katakana characters')
+      end
+
+      it 'ユーザー本名（名前）のフリガナは、全角（カタカナ）でないと登録できない（半角の場合）' do
+        @user.first_name_kana = 'taro'
+        @user.valid?
+        expect(@user.errors.full_messages).to include('First name kana is invalid. Input full-width katakana characters')
+      end
+
+      it 'ユーザー本名（名前）のフリガナは、全角（カタカナ）でないと登録できない（全角（カタカナ）以外の場合）' do
+        @user.first_name_kana = 'たろう'
+        @user.valid?
+        expect(@user.errors.full_messages).to include('First name kana is invalid. Input full-width katakana characters')
       end
     end
   end
