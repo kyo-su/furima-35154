@@ -113,6 +113,20 @@ RSpec.describe User, type: :model do
         expect(@user.errors.full_messages).to include('Password is invalid. Include both letters and numbers')
       end
 
+      it 'パスワードが全角英数字混合だと登録できないこと（数字が全角の場合）' do
+        @user.password = 'aaa１１１'
+        @user.password_confirmation = 'aaa１１１'
+        @user.valid?
+        expect(@user.errors.full_messages).to include('Password is invalid. Include both letters and numbers')
+      end
+
+      it 'パスワードが全角英数字混合だと登録できないこと（英字が全角の場合）' do
+        @user.password = 'ＡＡＡ111'
+        @user.password_confirmation = 'aaa１１１'
+        @user.valid?
+        expect(@user.errors.full_messages).to include('Password is invalid. Include both letters and numbers')
+      end
+
       it 'ユーザー本名（名字）は、全角（漢字・ひらがな・カタカナ）でないと登録できない' do
         @user.family_name_kanji = 'yamada'
         @user.valid?
