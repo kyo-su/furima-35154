@@ -25,4 +25,7 @@ class Item < ApplicationRecord
     validates :prefecture_id
     validates :day_id
   end
+
+  # 販売価格は整数であること、入力値が300~9,999,999であるか検証
+  validates :price, numericality: { only_integer: true, greater_than: 300, less_than: 9999999, allow_blank: true}
 end
