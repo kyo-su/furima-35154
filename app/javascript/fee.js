@@ -3,7 +3,7 @@ function fee (){
 
   itemPrice.addEventListener("keyup", () => {
 
-    const addTaxPriceVal = itemPrice.value * 0.1;
+    const addTaxPriceVal = Math.floor(itemPrice.value * 0.1);
     const addTaxPrice = document.getElementById("add-tax-price");
     addTaxPrice.innerHTML = addTaxPriceVal;
 
