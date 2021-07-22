@@ -15,6 +15,7 @@ class Item < ApplicationRecord
     validates :title
     validates :description
     validates :price
+    validates :image
   end
 
   # 選択肢「---」の時は保存できないようにする
