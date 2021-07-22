@@ -1,8 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Item, type: :model do
-
-  before do 
+  before do
     @item = FactoryBot.build(:item)
   end
 
@@ -62,27 +61,27 @@ RSpec.describe Item, type: :model do
       it 'ユーザーが紐づいていないと保存できない' do
         @item.user = nil
         @item.valid?
-        expect(@item.errors.full_messages).to include("User must exist")
+        expect(@item.errors.full_messages).to include('User must exist')
       end
       it '価格は半角数字でないと保存できない（全角の場合）' do
         @item.price = 'あああ'
         @item.valid?
-        expect(@item.errors.full_messages).to include("Price is not a number")
+        expect(@item.errors.full_messages).to include('Price is not a number')
       end
       it '価格は半角数字でないと保存できない（半角英字の場合）' do
         @item.price = 'aaa'
         @item.valid?
-        expect(@item.errors.full_messages).to include("Price is not a number")
+        expect(@item.errors.full_messages).to include('Price is not a number')
       end
       it '価格の入力値は300~9,999,999以内でないと保存できない（300以下の場合）' do
         @item.price = '100'
         @item.valid?
-        expect(@item.errors.full_messages).to include("Price must be greater than 300")
+        expect(@item.errors.full_messages).to include('Price must be greater than 300')
       end
       it '価格の入力値は300~9,999,999以内でないと保存できない（9,999,999以上の場合）' do
         @item.price = '100000000'
         @item.valid?
-        expect(@item.errors.full_messages).to include("Price must be less than 9999999")
+        expect(@item.errors.full_messages).to include('Price must be less than 9999999')
       end
     end
   end

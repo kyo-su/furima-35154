@@ -7,7 +7,7 @@ FactoryBot.define do
     charge_burden_id { rand(2..3) }
     prefecture_id { rand(2..48) }
     day_id { rand(2..4) }
-    price { rand(300..9999999) }
+    price { rand(300..9_999_999) }
 
     association :user
 
