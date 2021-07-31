@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_26_163650) do
+ActiveRecord::Schema.define(version: 2021_07_26_154221) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -63,10 +63,10 @@ ActiveRecord::Schema.define(version: 2021_07_26_163650) do
 
   create_table "purchase_histories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "user_id", null: false
+    t.bigint "item_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "customer_id", null: false
-    t.index ["customer_id"], name: "index_purchase_histories_on_customer_id"
+    t.index ["item_id"], name: "index_purchase_histories_on_item_id"
     t.index ["user_id"], name: "index_purchase_histories_on_user_id"
   end
 
@@ -91,6 +91,6 @@ ActiveRecord::Schema.define(version: 2021_07_26_163650) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "customers", "purchase_histories"
   add_foreign_key "items", "users"
-  add_foreign_key "purchase_histories", "customers"
+  add_foreign_key "purchase_histories", "items"
   add_foreign_key "purchase_histories", "users"
 end
