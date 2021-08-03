@@ -4,10 +4,10 @@ class PurchaseHistoryCustomer
   attr_accessor :post_number, :prefecture_id, :municipality, :address, :building_name, :phone_number, :user_id, :item_id, :token
 
   with_options presence: true do
-    validates :post_number, format: { with: /\A[0-9]{3}-[0-9]{4}\z/, message: "is invalid. Include hyphen(-)" }
+    validates :post_number, format: { with: /\A[0-9]{3}-[0-9]{4}\z/, message: "is invalid. Include hyphen(-)", allow_blank: true }
     validates :municipality
     validates :address
-    validates :phone_number, numericality: { only_integer: true }
+    validates :phone_number, numericality: { only_integer: true, allow_blank: true }
     validates :user_id
     validates :item_id
     validates :token
