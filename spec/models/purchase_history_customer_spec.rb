@@ -48,19 +48,19 @@ RSpec.describe PurchaseHistoryCustomer, type: :model do
       it '郵便番号は半角数字と半角のハイフンを含んだ形式でないと保存できない（ハイフンなしの場合）' do
         @purchase_history_customer.post_number = '11111111'
         @purchase_history_customer.valid?
-        expect(@purchase_history_customer.errors.full_messages).to include("Post number is invalid. Include hyphen(-)")
+        expect(@purchase_history_customer.errors.full_messages).to include('Post number is invalid. Include hyphen(-)')
       end
 
       it '郵便番号は半角数字と半角のハイフンを含んだ形式でないと保存できない（ハイフン含む半角英字の場合）' do
         @purchase_history_customer.post_number = 'aaa-aaaa'
         @purchase_history_customer.valid?
-        expect(@purchase_history_customer.errors.full_messages).to include("Post number is invalid. Include hyphen(-)")
+        expect(@purchase_history_customer.errors.full_messages).to include('Post number is invalid. Include hyphen(-)')
       end
 
       it '郵便番号は半角数字と半角のハイフンを含んだ形式でないと保存できない（ハイフン含む半角数字英字混合の場合）' do
         @purchase_history_customer.post_number = 'aaa-aaaa'
         @purchase_history_customer.valid?
-        expect(@purchase_history_customer.errors.full_messages).to include("Post number is invalid. Include hyphen(-)")
+        expect(@purchase_history_customer.errors.full_messages).to include('Post number is invalid. Include hyphen(-)')
       end
 
       it '都道府県に1が選択された場合は保存できない' do
@@ -72,21 +72,20 @@ RSpec.describe PurchaseHistoryCustomer, type: :model do
       it '電話番号は半角数字でないと保存できない（全角の場合）' do
         @purchase_history_customer.phone_number = 'aaaaaaaaaaa'
         @purchase_history_customer.valid?
-        expect(@purchase_history_customer.errors.full_messages).to include("Phone number is not a number")
+        expect(@purchase_history_customer.errors.full_messages).to include('Phone number is not a number')
       end
 
       it '電話番号は半角数字でないと保存できない（半角英字の場合）' do
         @purchase_history_customer.phone_number = 'aaaaaaaaaaa'
         @purchase_history_customer.valid?
-        expect(@purchase_history_customer.errors.full_messages).to include("Phone number is not a number")
+        expect(@purchase_history_customer.errors.full_messages).to include('Phone number is not a number')
       end
 
       it '電話番号は半角数字でないと保存できない（半角英数字混合の場合）' do
         @purchase_history_customer.phone_number = 'aaa11111111'
         @purchase_history_customer.valid?
-        expect(@purchase_history_customer.errors.full_messages).to include("Phone number is not a number")
+        expect(@purchase_history_customer.errors.full_messages).to include('Phone number is not a number')
       end
-      
     end
   end
 end
