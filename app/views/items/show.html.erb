@@ -23,22 +23,25 @@
       </span>
     </div>
 
-    <%# ログインしているユーザーと出品しているユーザーが、同一人物の場合表示しない %>
-    <% if user_signed_in? && current_user.id == @item.user.id %>
-    <%= link_to "商品の編集", "#", method: :get, class: "item-red-btn" %>
-    <p class="or-text">or</p>
-    <%= link_to "削除", "#", method: :delete, class:"item-destroy" %>
+    <%# ログインしているユーザーは表示される %>
+    <% if user_signed_in? %>
+      <%# ログインしているユーザーと出品しているユーザーが、同一人物の場合表示しない %>
+      <% if current_user.id == @item.user.id %>
+        <%= link_to "商品の編集", "#", method: :get, class: "item-red-btn" %>
+        <p class="or-text">or</p>
+        <%= link_to "削除", "#", method: :delete, class:"item-destroy" %>
+      <%# ログインしているユーザーと出品しているユーザーが、同一人物の場合表示しない %>
+
+      <%# 商品が売れていない場合、表示される %>
+      <% else %>
+        <%= link_to "購入画面に進む", "#" ,class:"item-red-btn"%>
+      <% end %>
+      <%# 商品が売れていない場合、表示される %>
     <% end %>
-    <%# ログインしているユーザーと出品しているユーザーが、同一人物の場合表示しない %>
-
-    <%# 商品が売れていない場合はこちらを表示しましょう %>
-    <% if user_signed_in? && current_user.id != @item.user.id %>
-    <%= link_to "購入画面に進む", "#" ,class:"item-red-btn"%>
-    <% end %>
-    <%# //商品が売れていない場合はこちらを表示しましょう %>
+    <%# //ログインしているユーザーは表示される %>
 
 
-    <%# //ログインしているユーザーと出品しているユーザーが、同一人物の場合と同一人物ではない場合で、処理を分けましょう %>
+    <%# //ログインしているユーザーと出品しているユーザーが、同一人物の場合表示しない %>
 
     <div class="item-explain-box">
       <span><%= @item.description %></span>
