@@ -1,16 +1,15 @@
 class PurchaseHistoriesController < ApplicationController
   before_action :authenticate_user!, only: :index
-  before_action :move_to_root_seller, only: :index
+  # before_action :move_to_root_seller, only: :index
   before_action :move_to_root_sold, only: :index
+  before_action :set_item, only: [:index, :create]
 
   def index
     @purchase_history_customer = PurchaseHistoryCustomer.new
-    @item = Item.find(params[:item_id])
   end
 
   def create
     @purchase_history_customer = PurchaseHistoryCustomer.new(customer_params)
-    @item = Item.find(params[:item_id])
 
     if @purchase_history_customer.valid?
       pay_item
@@ -29,6 +28,10 @@ class PurchaseHistoriesController < ApplicationController
           .merge(user_id: current_user.id, item_id: params[:item_id], token: params[:token])
   end
 
+  def set_item
+    @item = Item.find(params[:item_id])
+  end
+
   # クレジット決済処理の記載
   def pay_item
     Payjp.api_key = ENV['PAYJP_SECRET_KEY']
@@ -40,17 +43,17 @@ class PurchaseHistoriesController < ApplicationController
   end
 
   # ログイン状態のユーザーのアクセス制限（出品者）
-  def move_to_root_seller
-    item = Item.find(params[:item_id])
+  # def move_to_root_seller
+  #   item = Item.find(params[:item_id])
 
-    redirect_to root_path unless user_signed_in? && current_user.id != item.user_id
-  end
+  #   redirect_to root_path unless current_user.id == item.user.id
+  # end
 
-  # ログイン状態のユーザーのアクセス制限（売却済み）
-  def move_to_root_sold
-    item = Item.find(params[:item_id])
-    purchase_history = PurchaseHistory.find(params[:item_id])
-
-    redirect_to root_path unless user_signed_in? && purchase_history.item_id != item.id
-  end
+    # ログイン状態のユーザーのアクセス制限（売却済み）
+    def move_to_root_sold
+      set_item
+      @purchase_history = PurchaseHistory.all
+  
+      redirect_to root_path if @purchase_history.exists?(item_id: @item.id)
+    end
 end
