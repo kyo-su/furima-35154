@@ -45,6 +45,24 @@ RSpec.describe PurchaseHistoryCustomer, type: :model do
         expect(@purchase_history_customer.errors.full_messages).to include("Phone number can't be blank")
       end
 
+      it 'tokenが空では登録できないこと' do
+        @purchase_history_customer.token = ''
+        @purchase_history_customer.valid?
+        expect(@purchase_history_customer.errors.full_messages).to include("Token can't be blank")
+      end
+
+      it 'user_idが空では登録できない' do
+        @purchase_history_customer.user_id = ''
+        @purchase_history_customer.valid?
+        expect(@purchase_history_customer.errors.full_messages).to include("User can't be blank")
+      end
+
+      it 'item_idが空では登録できない' do
+        @purchase_history_customer.item_id = ''
+        @purchase_history_customer.valid?
+        expect(@purchase_history_customer.errors.full_messages).to include("Item can't be blank")
+      end
+
       it '郵便番号は半角数字と半角のハイフンを含んだ形式でないと保存できない（ハイフンなしの場合）' do
         @purchase_history_customer.post_number = '11111111'
         @purchase_history_customer.valid?
@@ -86,6 +104,14 @@ RSpec.describe PurchaseHistoryCustomer, type: :model do
         @purchase_history_customer.valid?
         expect(@purchase_history_customer.errors.full_messages).to include('Phone number is not a number')
       end
+
+      it '電話番号が12桁以上では登録できない' do
+        @purchase_history_customer.phone_number = '111111111111'
+        @purchase_history_customer.valid?
+        expect(@purchase_history_customer.errors.full_messages).to include('Phone number is too long (maximum is 11 characters)')
+      end
+
+
     end
   end
 end
