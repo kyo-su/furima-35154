@@ -1,6 +1,6 @@
 class PurchaseHistoriesController < ApplicationController
   before_action :authenticate_user!, only: :index
-  # before_action :move_to_root_seller, only: :index
+  before_action :move_to_root_seller, only: :index
   before_action :move_to_root_sold, only: :index
   before_action :set_item, only: [:index, :create]
 
@@ -42,18 +42,18 @@ class PurchaseHistoriesController < ApplicationController
     )
   end
 
-  # ログイン状態のユーザーのアクセス制限（出品者）
-  # def move_to_root_seller
-  #   item = Item.find(params[:item_id])
+  # 購入画面へのログイン状態のユーザーのアクセス制限（出品者）
+  def move_to_root_seller
+    set_item
 
-  #   redirect_to root_path unless current_user.id == item.user.id
-  # end
+    redirect_to root_path if current_user.id == @item.user.id
+  end
 
-    # ログイン状態のユーザーのアクセス制限（売却済み）
-    def move_to_root_sold
-      set_item
-      @purchase_history = PurchaseHistory.all
-  
-      redirect_to root_path if @purchase_history.exists?(item_id: @item.id)
-    end
+  # 購入画面へのログイン状態のユーザーのアクセス制限（売却済み）
+  def move_to_root_sold
+    set_item
+    @purchase_history = PurchaseHistory.all
+
+    redirect_to root_path if @purchase_history.exists?(item_id: @item.id)
+  end
 end

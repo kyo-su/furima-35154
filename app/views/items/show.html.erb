@@ -25,26 +25,22 @@
       </span>
     </div>
 
-    <%# ログインしているユーザーは表示される %>
-    <% if user_signed_in? %>
-      <%# ログインしているユーザーと出品しているユーザーが、同一人物の場合表示しない、かつ商品が売れていない場合は表示される %>
+    <%# ログインしているユーザーかつ、購入されていないとき表示される %>
+    <% if user_signed_in? && @purchase_history.exists?(item_id: @item.id) == false  %>
+      <%# ログインしているユーザーと出品しているユーザーが、同一人物の場合表示しない %>
       <% if current_user.id == @item.user.id %>
-        <% unless @purchase_history.exists?(item_id: @item.id) %>
           <%= link_to "商品の編集", edit_item_path(@item), method: :get, class: "item-red-btn" %>
           <p class="or-text">or</p>
           <%= link_to "削除", item_path(@item), method: :delete, class:"item-destroy" %>
-        <% end %>
-      <%# ログインしているユーザーと出品しているユーザーが、同一人物の場合表示しない、かつ商品が売れていない場合は表示される %>
+      <%# ログインしているユーザーと出品しているユーザーが、同一人物の場合表示しない %>
 
       <%# 商品が売れていない場合、表示される %>
       <% else %>
-        <% unless @purchase_history.exists?(item_id: @item.id) %>
           <%= link_to "購入画面に進む", item_purchase_histories_path(@item) ,class:"item-red-btn"%>
         <% end %>
-      <% end %>
       <%# 商品が売れていない場合、表示される %>
     <% end %>
-    <%# //ログインしているユーザーは表示される %>
+    <%# //ログインしているユーザーかつ、購入されていないとき表示される %>
 
     <div class="item-explain-box">
       <span><%= @item.description %></span>

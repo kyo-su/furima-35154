@@ -1,7 +1,7 @@
 class ItemsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :move_to_index, only: [:edit, :update, :destroy]
-  before_action :move_to_root_sold, except: [:index, :show]
+  before_action :move_to_root_sold, except: [:index, :show, :new, :create]
   before_action :set_item, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -24,6 +24,7 @@ class ItemsController < ApplicationController
 
   def show
     @purchase_history = PurchaseHistory.all
+    
   end
 
   def edit
