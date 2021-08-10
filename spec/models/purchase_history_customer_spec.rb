@@ -110,8 +110,6 @@ RSpec.describe PurchaseHistoryCustomer, type: :model do
         @purchase_history_customer.valid?
         expect(@purchase_history_customer.errors.full_messages).to include('Phone number is too long (maximum is 11 characters)')
       end
-
-
     end
   end
 end

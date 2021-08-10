@@ -24,7 +24,6 @@ class ItemsController < ApplicationController
 
   def show
     @purchase_history = PurchaseHistory.all
-    
   end
 
   def edit
