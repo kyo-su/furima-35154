@@ -14,8 +14,6 @@ const pay = () => {
       cvc: formData.get("purchase_history_customer[cvc]"),
     };
 
-    console.log(card);
-
     Payjp.createToken(card, (status, response) => {
       if (status == 200) {
         const token = response.id;
