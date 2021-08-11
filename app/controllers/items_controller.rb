@@ -52,7 +52,7 @@ class ItemsController < ApplicationController
     @item = Item.find(params[:id])
   end
 
-  # ログイン状態のユーザーのアクセス制限（出品者自身または商品が売却済みの場合トップページに移動）
+  # ログイン状態のユーザーのアクセス制限（出品者以外または商品が売却済みの場合トップページに移動）
   def move_to_index
     @purchase_history = PurchaseHistory.all
 
