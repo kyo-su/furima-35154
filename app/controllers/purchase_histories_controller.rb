@@ -45,8 +45,6 @@ class PurchaseHistoriesController < ApplicationController
   def move_to_root
     @purchase_history = PurchaseHistory.all
 
-    if current_user.id == @item.user.id || @purchase_history.exists?(item_id: @item.id)
-      redirect_to root_path
-    end
+    redirect_to root_path if current_user.id == @item.user.id || @purchase_history.exists?(item_id: @item.id)
   end
 end
