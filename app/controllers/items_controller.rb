@@ -1,10 +1,11 @@
 class ItemsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :move_to_index, only: [:edit, :update, :destroy]
   before_action :set_item, only: [:show, :edit, :update, :destroy]
+  before_action :move_to_index, only: [:edit, :update, :destroy]
 
   def index
     @item = Item.order('created_at DESC')
+    @purchase_history = PurchaseHistory.all
   end
 
   def new
@@ -21,6 +22,7 @@ class ItemsController < ApplicationController
   end
 
   def show
+    @purchase_history = PurchaseHistory.all
   end
 
   def edit
@@ -50,9 +52,10 @@ class ItemsController < ApplicationController
     @item = Item.find(params[:id])
   end
 
+  # ログイン状態のユーザーのアクセス制限（出品者以外または商品が売却済みの場合トップページに移動）
   def move_to_index
-    set_item
+    @purchase_history = PurchaseHistory.all
 
-    redirect_to root_path unless current_user.id == @item.user.id
+    redirect_to root_path if current_user.id != @item.user.id || @purchase_history.exists?(item_id: @item.id)
   end
 end

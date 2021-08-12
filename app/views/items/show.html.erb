@@ -8,11 +8,13 @@
     </h2>
     <div class="item-img-content">
       <%= image_tag @item.image ,class:"item-box-img" %>
-      <%# 商品が売れている場合は、sold outを表示しましょう %>
-      <%# <div class="sold-out"> %>
-        <%# <span>Sold Out!!</span> %>
-      <%# </div> %>
-      <%# //商品が売れている場合は、sold outを表示しましょう %>
+      <%# 商品が売れている場合、売却済みを示すために画像に"sold out"を表示する %>
+      <% if @purchase_history.exists?(item_id: @item.id) %>
+        <div class="sold-out">
+          <span>Sold Out!!</span>
+        </div>
+      <% end %>
+      <%# //商品が売れている場合、売却済みを示すために画像に"sold out"を表示する %>
     </div>
     <div class="item-price-box">
       <span class="item-price">
@@ -23,25 +25,22 @@
       </span>
     </div>
 
-    <%# ログインしているユーザーは表示される %>
-    <% if user_signed_in? %>
-      <%# ログインしているユーザーと出品しているユーザーが、同一人物の場合表示しない %>
+    <%# ログインしているユーザーかつ、商品が売れていない場合に表示される %>
+    <% if user_signed_in? && @purchase_history.exists?(item_id: @item.id) == false  %>
+      <%# ログインしているユーザーと出品しているユーザーが、同一人物の場合表示する %>
       <% if current_user.id == @item.user.id %>
-        <%= link_to "商品の編集", edit_item_path(@item), method: :get, class: "item-red-btn" %>
-        <p class="or-text">or</p>
-        <%= link_to "削除", item_path(@item), method: :delete, class:"item-destroy" %>
-      <%# ログインしているユーザーと出品しているユーザーが、同一人物の場合表示しない %>
+          <%= link_to "商品の編集", edit_item_path(@item), method: :get, class: "item-red-btn" %>
+          <p class="or-text">or</p>
+          <%= link_to "削除", item_path(@item), method: :delete, class:"item-destroy" %>
+      <%# //ログインしているユーザーと出品しているユーザーが、同一人物の場合表示する %>
 
       <%# 商品が売れていない場合、表示される %>
       <% else %>
-        <%= link_to "購入画面に進む", "#" ,class:"item-red-btn"%>
+          <%= link_to "購入画面に進む", item_purchase_histories_path(@item) ,class:"item-red-btn"%>
       <% end %>
-      <%# 商品が売れていない場合、表示される %>
+      <%# //商品が売れていない場合、表示される %>
     <% end %>
-    <%# //ログインしているユーザーは表示される %>
-
-
-    <%# //ログインしているユーザーと出品しているユーザーが、同一人物の場合表示しない %>
+    <%# //ログインしているユーザーかつ、商品が売れていない場合に表示される %>
 
     <div class="item-explain-box">
       <span><%= @item.description %></span>
