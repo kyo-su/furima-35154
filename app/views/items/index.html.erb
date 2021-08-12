@@ -135,13 +135,13 @@
           <div class='item-img-content'>
             <%= image_tag item.image, class: "item-img" %>
 
-            <%# 商品が売れている場合、sold outを表示 %>
+            <%# 商品が売れている場合、売却済みを示すために画像に"sold out"を表示する %>
             <% if @purchase_history.exists?(item_id: item.id) %>
-            <div class='sold-out'>
-              <span>Sold Out!!</span>
-            </div>
+              <div class='sold-out'>
+                <span>Sold Out!!</span>
+              </div>
             <% end %>
-            <%# //商品が売れている場合、sold outを表示 %>
+            <%# //商品が売れている場合、売却済みを示すために画像に"sold out"を表示する %>
 
           </div>
           <div class='item-info'>
